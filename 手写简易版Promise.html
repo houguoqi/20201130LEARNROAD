@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /** 
+    Promise 有三个状态 Pending(进行中), Fulfilled(已成功), Rejected(已失败), 外界无法改变这三个状态并且一旦改变就无法再次改变
+
+    ## 实例化一个 Promise 需要传入一个 executor 函数 ，业务代码在 executor 函数中执行，另外 executor 函数接收两个参数 resolve 和 reject。resolve 和 reject 是 Promise 构造函数的内置函数。
+
+    ## 在 executor 函数中业务代码执行成功了，调用 resolve 函数，把 Promise 的状态变为已成功，另外通过参数把业务代码的执行成功的结果传递到 Promise 中。
+
+    ## 在 executor 函数中业务代码执行失败了，调用 reject 函数，把 Promise 的状态变为已失败，另外通过参数把业务代码的执行失败的原因传递到 Promise 中。
+
+    ## 实例方法 then 的第一个参数是业务代码执行成功的回调函数，第二个参数是业务代码执行失败的回调函数，当业务代码执行完毕后，会根据执行结果调用对应的回调函数，且这些回调函数接收业务代码的执行结果作为参数。
+
+    ## 通过实例方法 catch 来添加业务代码执行失败的回调函数。
+    */
+
+    const Pending = Symbol("Pending"); // 进行中
+    const Fulfilled = Symbol("Fulfilled"); // 已成功
+    const Rejected = Symbol("Rejected"); // 已失败
+    class MyPromise {
+        constructor(executor) {
+            this.status = Pending;
+            this.value = '';
+            this.reason = '';
+            this.FulfilledQue = [];
+            this.RejectedQue = [];
+            const resolve = (value) => {
+                if (this.status === Pending) {
+                    this.status = Fulfilled;
+                    this.value = value;
+                    this.FulfilledQue.forEach(ele => ele())
+                }
+            }
+            const reject = (value) => {
+                if (this.status === Pending) {
+                    this.status = Rejected;
+                    this.value = value;
+                    this.RejectedQue.forEach(ele => ele())
+                }
+            }
+            executor(resolve, reject)
+        }
+        then(onFulfilled, onRejected) {
+            if (this.status === Pending) {
+                if (onFulfilled && typeof onFulfilled === 'function') {
+                    this.FulfilledQue.push(() => {
+                        onFulfilled(this.value)
+                    })
+                }
+                if (onRejected && typeof onRejected === 'function') {
+                    this.RejectedQue.push(() => {
+                        onRejected(this.value)
+                    })
+                }
+            }
+            if (this.status === Fulfilled) {
+                if (onFulfilled && typeof onFulfilled === 'function') {
+                    onFulfilled(this.value)
+                }
+            }
+            if (this.status === Rejected) {
+                if (onRejected && typeof onRejected === 'function') {
+                    onRejected(this.value)
+                }
+            }
+        }
+        catch(onRejected) {
+            this.then(null,onRejected)
+        }
+    }
+
+    // var pro = new MyPromise((resolve, reject)=>{
+    //     resolve('success')
+    // })
+    // pro.then((val)=>{
+    //     console.log(val)
+    // })
+
+    var proAsync = new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('async success')
+        }, 1000);
+    })
+    proAsync.then((val) => {
+        console.log(val)
+    })
+
+    //https://juejin.cn/post/6899273470623318023#heading-9
+</script>
+</html>
