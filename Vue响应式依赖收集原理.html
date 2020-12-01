@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 首先定义一个订阅者对象，用于存放观察者，以及触发更新
+    class Dep {
+        constructor() {
+            this.subs = []
+        }
+        addSub(sub) {
+            this.subs.push(sub)
+        }
+        notify() {
+            // 数据更新时，触发所有观察者进行更新
+            this.subs.forEach(sub => {
+                sub.update()
+            })
+        }
+    }
+    // 观察者对象
+    class Watcher {
+        constructor() {
+            Dep.target = this;
+        }
+        update() {
+            console.log('视图更新')
+        }
+    }
+
+    // 观察方法
+    function observer (value) {
+        if (!value || (typeof value !== 'object')) {
+            return;
+        }
+        
+        Object.keys(value).forEach((key) => {
+            defineReactive(value, key, value[key]);
+        });
+    }
+
+    function defineReactive (obj, key, val) {
+        const dep = new Dep(); // 采用闭包的方式初始化一个订阅者
+        
+        Object.defineProperty(obj, key, {
+            enumerable: true,
+            configurable: true,
+            get: function reactiveGetter () {
+                dep.addSub(Dep.target);
+                return val;
+            },
+            set: function reactiveSetter (newVal) {
+                if (newVal === val) return;
+                val = newVal;
+                dep.notify(); // 监测到有数据更新的时候，执行更新
+            }
+        });
+    }
+
+    class Vue {
+        constructor(options) {
+            this._data = options.data;
+            observer(this._data);
+            new Watcher();
+            console.log('render~', this._data.test);
+        }
+    }
+
+    let o = new Vue({
+        data: {
+            test: "I am test."
+        }
+    });
+    o._data.test = "hello,test.";
+
+    Dep.target = null;
+</script>
+</html>
