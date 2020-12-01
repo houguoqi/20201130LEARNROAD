@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 首先定义一个模拟更新视图的方法
+    function updataView(val) {
+        console.log('更新视图', val)
+    }
+
+    // 检测数据变化方法 Object.defineProperty()
+    function definePropertyChange(obj, key, val) {
+        Object.defineProperty(obj, key, {
+            enumerable: true,
+            configurable: true,
+            get() {
+                return val;
+            },
+            set(newVal) {
+                if (newVal === val) return
+                val = newVal
+                updataView(newVal)
+            }
+        })
+    }
+
+    // 观察方法
+    function observer(obj) {
+        if (!obj || typeof obj !== 'object') return
+        Object.keys(obj).forEach(key => {
+            definePropertyChange(obj, key, obj[key])
+        })
+    }
+
+    class MyVue {
+        constructor(options) {
+            this.options = options
+            observer(this.options)
+        }
+    }
+
+    var vue = new MyVue({
+        name: 'tom'
+    })
+    vue.options.name = 'jerry'
+</script>
+</html>
