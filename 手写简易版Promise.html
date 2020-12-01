@@ -28,11 +28,11 @@
     const Rejected = Symbol("Rejected"); // 已失败
     class MyPromise {
         constructor(executor) {
-            this.status = Pending;
-            this.value = '';
-            this.reason = '';
-            this.FulfilledQue = [];
-            this.RejectedQue = [];
+            this.status = Pending; // 定义初始状态
+            this.value = ''; // 执行成功的结果 业务代码执行后得到的返回值
+            this.reason = ''; // 执行失败的原因
+            this.FulfilledQue = []; // 执行成功后挂起的操作队列
+            this.RejectedQue = []; // 执行失败后挂起的队列
             const resolve = (value) => {
                 if (this.status === Pending) {
                     this.status = Fulfilled;
