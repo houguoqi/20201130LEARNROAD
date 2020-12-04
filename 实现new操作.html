@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 定义new方法 接收两个参数， 第一个参数是构造函数(父亲对象) 第二个参数是初始化时的属性值
+    function MyNew(Func, ...args) {
+        // 首先定义一个空对象
+        var obj = {}
+        // 将这个空对象的__proto__属性指向Func的prototye
+        obj.__proto__ = Func.prototype
+        // 执行Func并改变this指向，将Func的属性及方法添加在obj身上
+        var new_obj = Func.apply(obj, args)
+
+        //如果构造函数没有返回一个对象,则返回新创建的对象
+        //如果构造函数返回了一个对象,则返回那个对象
+        //如果构造函数返回原始值,则当作没有返回对象
+        return new_obj instanceof Object ? new_obj : obj
+    }
+
+    function Person(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    var per = MyNew(Person, 'tom', 18)
+    console.log(per.name, per.age)
+</script>
+</html>
