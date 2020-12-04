@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 运用递归实现
+    // 三个参数，回调函数、时间间隔、多个参数
+    function MyInterval(fn, delay, ...args) {
+        let _this = this
+        setTimeout(() => {
+            fn.apply(_this, args)
+            MyInterval(fn, delay, ...args)
+        }, delay);
+    }
+
+    MyInterval(function (a) {
+        console.log(a)
+    }, 1000, 1)
+</script>
+</html>

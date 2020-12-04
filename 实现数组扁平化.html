@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 数组扁平化就是指将一个多维数组中的所有项提取出来变成一个一维数组
+    // 运用递归处理
+    function flatArray(arr) {
+        var result = []
+        arr.forEach(ele => {
+            if(Array.isArray(ele)) {
+                result = result.concat(flatArray(ele))
+            } else {
+                result.push(ele)
+            }
+        })
+        return result
+    }
+    const arr = [1,[2,3],4,[5,[6,7,8]],9,[10]]
+    console.log(flatArray(arr))
+</script>
+</html>
