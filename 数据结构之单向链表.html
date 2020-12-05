@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>单向链表示例图:</h1>
+    <img src="https://www.hgqweb.cn/wp-content/uploads/2020/05/557295227-5c273f96b5146_articlex.png" alt="">
+</body>
+<script>
+    // 单向链表的特点
+    // 1.用一组任意的内存空间去存储数据元素，这组内存空间可以说连续的也可以是不连续的
+    // 2.每个节点node都由数据本身和指向下一个数据节点的指针组成
+    // 3.链表的存取必须从头指针开始，头指针指向第一个节点
+    // 4.尾巴节点的指针指向Null
+
+    // 单向链表的常用操作
+    // 1.创建节点 2. 插入节点 3.搜索遍历节点 4.删除节点 5.合并
+
+    // 对于创建节点：上面说了每个数据节点都由数据本身和指向下一个数据节点的指针组成，因此每个由两部分组成，分别是本身数据，及下一个数据节点对象
+
+    // 初始化一个节点
+    class Node{
+        constructor(element) {
+            this.element = element; // 存储数据
+            this.next = null // 指针指向空
+        }
+    }
+
+    // 初始化单向链表
+    class LinkedList{
+        constructor() {
+            this.header = null
+            this.count = 0
+        }
+
+        // 向链表尾部添加元素
+        push(element) {
+            let node = new Node(element)
+
+            // 判断链表是否只有一个头
+            if (this.header === null) {
+                this.header = node
+            } else {
+                let current = this.header
+                while (current.next !== null) {
+                    current = current.next
+                }
+                current.next = node
+            }
+
+            this.count++
+        }
+
+        // 移除链表的某个元素
+        removeIndex(index) {
+            // 首先判断index是否合理
+            if (index >= 0 && index < this.count) {
+                let current = this.header
+                // 判断是否是移除头
+                if (index === 0) {
+                    this.header = current.next
+                } else {
+                    // 思想就是将当前索引的数据元素的next指向当前索引+1的数据元素的next, 就相当于跳过了当前索引，即移除
+                    let previous = null
+                    for (let i = 0; i < index; i++) {
+                        previous = current
+                        current = current.next
+                    }
+                    previous.next = current.next
+                }
+                this.count--
+                // 返回被移除的元素
+                return current.element
+            }
+            return null
+        }
+
+        // 获取链表指定位置的元素
+        getIndex(index) {
+            if (index >= 0 && index < this.count) {
+                let current = this.head;
+                for(let i = 0; i < index && current !== null; i++) {
+                    current = current.next;
+                }	
+                return current;
+            }
+            return null
+        }
+
+        // 指定索引处添加一个元素
+        addIndex(element, index) {
+            let node = new Node(element)
+            if (index >= 0 && index < this.count) {
+                let current = this.header
+                // 添加在头部
+                if (index === 0) {
+                    node.next = current
+                    this.header = node
+                } else {
+                    let previous = null
+                    for (let i = 0; i < index; i++) {
+                        previous = current
+                        current = current.next
+                    }
+                    previous.next = node
+                    node.next = current
+                }
+                this.count++
+                return true
+            }
+            return false
+        }
+
+        // 查找某个元素的索引，没有则返回 -1
+        findIndex(element) {
+            let current = this.header
+            let i = 0
+            if (current.next === null) {
+                return -1
+            }
+            while (current.next !== null) {
+                i++
+                if (current.element === element) {
+                    return i
+                }
+                current = current.next
+            }
+            return -1
+        }
+    }
+
+</script>
+</html>
