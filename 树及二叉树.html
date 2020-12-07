@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>完美二叉树</h1>
+    <img src="https://img-blog.csdn.net/2018060422441774?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2pvaG5ueTkwMTExNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="">
+    
+    <h1>完全二叉树</h1>
+    <img src="https://img-blog.csdn.net/20180604225850509?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2pvaG5ueTkwMTExNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="">
+
+    <h1>完满二叉树</h1>
+    <img src="https://img-blog.csdn.net/20180604230227328?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2pvaG5ueTkwMTExNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="">
+</body>
+<script>
+    // 二叉树相关概念
+    //  根节点：位于树顶部的节点，没有父节点
+    //  内部节点：至少有一个子节点的节点
+    //  外部节点（叶节点）：没有子元素的节点
+    //  子树：由节点和它的后代构成
+    //  深度：节点的深度取决于它的祖先节点的数量
+    //  高度：取决于所有节点深度的最大值
+
+    // 二叉搜索树BST
+    // 无序链表在插入时候具有较高的灵敏性，而有序数组在查找的时候具有较高的效率。
+    // 二叉搜索树（BST）这一数据结构综合了以上两种数据结构的优点。
+    // 但是它只允许你在左侧节点存储（比父节点）小的值，右侧节点存储（比父节点）大的值。
+
+    // 首先创建一个节点类
+    class Node{
+        constructor(key) {
+            this.key = key
+            this.left = null
+            this.right = null
+        }
+    }
+
+    //创建二叉搜索树类
+    class BinarySearchTree{
+        constructor() {
+            // 根节点指向null,还没有其它数据
+            this.root = null
+        }
+
+        // 插入一个节点
+        insert(key) {
+            var newNode = new Node(key)
+            // 如果只有根节点，直接赋值
+            if (this.root === null) {
+                this.root = newNode
+            } else {
+                insertNodeFuc(this.root, newNode)
+            }
+        }
+
+        // 中序遍历 -- 左->根->右
+        inOrderTraverse(callback) {
+            // callback是对数据进行处理的回调函数
+            inOrderTraverseFuc(this.root, callback)
+        }
+
+        // 先序遍历 -- 根->左->右
+        preOrderTraverse(callback) {
+            // callback是对数据进行处理的回调函数
+            preOrderTraverseFuc(this.root, callback)
+        }
+
+        // 后序遍历 -- 左->右->根
+        postOrderTraverse(callback) {
+            // callback是对数据进行处理的回调函数
+            postOrderTraverseFuc(this.root, callback)
+        }
+
+        // 搜索最大值
+        max() {
+            maxSearch(this.root)
+        }
+
+        // 搜索最小值
+        min() {
+            minSearch(this.root)
+        }
+
+        // 搜索一个特定的值
+        search(key) {
+            searchFuc(key)
+        }
+
+    }
+
+    // 插入节点需要用到的辅助函数，递归使用
+    function insertNodeFuc(node, newNode) {
+        // 默认树中存储的数据都是Number类型，可直接比较大小，暂不考虑其它数据类型
+        if (newNode.key < node.key) {
+            if (node.left === null) {
+                node.left = newNode
+            } else {
+                insertNodeFuc(node.left, newNode)
+            }
+        } else {
+            if (node.right === null) {
+                node.right = newNode
+            } else {
+                insertNodeFuc(node.right, newNode)
+            }
+        }
+    }
+
+    // 中序遍历需要用到的辅助函数，递归使用
+    function inOrderTraverseFuc(node, callback) {
+        if (node !== null) {
+            inOrderTraverseFuc(node.left, callback)
+            callback(node.key)
+            inOrderTraverseFuc(node.right, callback)
+        }
+    }
+
+    // 前序遍历需要用到的辅助函数，递归使用
+    function preOrderTraverse(node, callback) {
+        if (node !== null) {
+            callback(node.key)
+            preOrderTraverse(node.left, callback)
+            preOrderTraverse(node.right, callback)
+        }
+    }
+
+    // 后序遍历需要用到的辅助函数，递归使用
+    function postOrderTraverse(node, callback) {
+        if (node !== null) {
+            postOrderTraverse(node.left, callback)
+            postOrderTraverse(node.right, callback)
+            callback(node.key)
+        }
+    }
+
+    // 搜索最大值辅助函数
+    function maxSearch(node) {
+        if (node) {
+            while (node && node.right !== null) {
+                node = node.right;
+            }
+            return node.key;
+        }
+        return null;
+    }
+
+    // 搜索最小值辅助函数
+    function minSearch(node) {
+        if (node) {
+            while (node && node.left !== null) {
+                node = node.left;
+            }
+            return node.key;
+        }
+        return null;
+    }
+
+    // 搜索特定值用到的辅助函数
+    function searchFuc(node, key) {
+        if (node === null) {
+            return false
+        }
+        if (key > node.key) {
+            searchFuc(node.right, key)
+        } else if (key < node.key) {
+            searchFuc(node.left, key)
+        } else {
+            return true
+        }
+    }
+</script>
+</html>
