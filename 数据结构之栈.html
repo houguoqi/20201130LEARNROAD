@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>数据结构之栈</h1>
+    <img src="https://image-static.segmentfault.com/145/644/1456441921-5c4c4c1c79f44_articlex" alt="">
+</body>
+<script>
+    // 栈是一种后进先出的数据结构
+    // 1. 其限制是仅允许在一端进行插入和删除。这一端被称为栈顶，另一端称为栈底；
+    // 2. LFO（ last in first out）后进入的元素第一个弹出栈空间；
+    // 3. 向—个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；
+    // 4. 从—个栈删除元素又称作岀栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素；
+
+    // 首先创建一个栈类
+    class Stack{
+        constructor() {
+            this.items = []
+        }
+
+        // 添加一个新元素到栈顶
+        push(el) {
+            this.items.push(el)
+        }
+
+        // 移除栈顶元素，返回被移除元素
+        pop() {
+            return this.items.pop()
+        }
+
+        // 返回栈顶的元素
+        peek() {
+            const length = this.items.length
+            return length
+            ? this.items[length - 1]
+            : undefined
+        }
+
+        // 判断是否为空
+        isEmpty() {
+            return this.items.length === 0
+        }
+
+        // 清空
+        clear() {
+            this.items = []
+            return true
+        }
+
+        // 返回元素个数
+        get size() {
+            return this.items.length
+        }
+        
+        // toString
+        toString() {
+            let str = ''
+            for (let i = 0; i < this.items.length; i++) {
+            const el = this.items[i];
+            str += el + ' '
+            }
+            return str
+        }
+    }
+</script>
+</html>
