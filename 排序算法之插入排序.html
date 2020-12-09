@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>插入排序</h1>
+    <img src="./images/插入排序.gif" alt="">
+</body>
+<script>
+    // 插入排序就是先默认一段排序好的序列，然后遍历剩下的每个元素，将它与前面排好序的每一项进行比较插入到合适的地方
+    // 思路：默认第一个是排序好的，从第二个开始遍历，从后往前依次比较，比前一个值大则不动，比前一个值小，则将前一个值后退，自己前进，一次类推，知道找到合适的地方
+    // 演示：比如现在有一个乱序数组 [2, 7, 1, 3, 9]
+    // 1. 默认2为最小值，已排序好，从第二个值开始，7和2相比，7 > 2 ，不动，遍历结束
+    // 2. 第三项开始，1和7比较，1 < 7, 将7后移，则变成[2, 7, 7, 3, 9],继续和前一项比较，1和2比较，1 < 2,则将2后移，变成[2, 2, 2, 3, 9],此时已比较完成，变成[1, 2, 7, 3, 9]
+    // 以此类推
+    function insertSort(arr) {
+        let length = arr.length;
+        for(let i = 1; i < length; i++) {
+            let temp = arr[i];
+            let j = i;
+            for(; j > 0; j--) {
+                if(temp >= arr[j-1]) {
+                    break;      // 当前考察的数大于前一个数，证明有序，退出循环
+                }
+                arr[j] = arr[j-1]; // 将前一个数复制到后一个数上
+            }
+            arr[j] = temp;  // 找到考察的数应处于的位置
+        }
+        return arr;
+    }
+    console.log(insertSort([2,5,10,7,10,32,90,9,11,1,0,10]))
+</script>
+</html>

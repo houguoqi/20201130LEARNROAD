@@ -14,17 +14,18 @@
     // 然后默认第二个值为最小值，继续遍历后面的所有值，有比默认值小的，则交换位置，依次类推，直到最后一个值为最大值
     // 反过来默认最后一个值为最大值，然后遍历前面的所有值，有比默认值大的，则交换位置，以此类推
     function selectSort(arr) {
-        var minIndex
+        var minIndex, temp
         var len = arr.length
         for(var i = 0; i < len - 1; i++) {
             minIndex = i
             for(var j = i + 1; j < len; j++) {
                 if(arr[j] < arr[minIndex]) {
-                    var temp = arr[minIndex]
-                    arr[minIndex] = arr[j]
-                    arr[j] = temp
+                    minIndex = j
                 }
             }
+            temp = arr[minIndex]
+            arr[minIndex] = arr[i]
+            arr[i] = temp
         }
         return arr
     }
