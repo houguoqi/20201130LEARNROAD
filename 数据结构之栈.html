@@ -66,5 +66,29 @@
             return str
         }
     }
+
+    // 简单的一个实际例子
+    // 将一个十进制的数转化成二进制
+    // 做法：将十进制的树不断的与2相除，并取余，直到相除的结果取整后为0，最终将所有余数从后往前拼接，得到二进制树
+    function dec2bin(number) {
+        // 实例化栈
+        const stack = new Stack()
+        
+        // 除2取整结果大于0时循环
+        while (number) {
+            // 余数放到栈中
+            stack.push(number%2)
+            // 获取整除的结果
+            number= Math.floor(number/2)
+        }
+
+        // 从后向前拼接栈中数据
+        let binStr = ''
+        while (!stack.isEmpty()) {
+            binStr += stack.pop()
+        }
+        return binStr
+    }
+
 </script>
 </html>
