@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>冒泡排序</h1>
+    <img src="https://user-images.githubusercontent.com/17243165/28749710-5213c280-7503-11e7-977e-7c0616e3b582.gif" alt="">
+</body>
+<script>
+    // 将一个无序列表从小到大排列
+    // 思路：冒泡排序就是依次比较相邻的两个值，如果前面的值大于后面的值，则将二者交换位置
+    // 需要两层循环，实际上就是每次遍历将本次的最大值放在最后，因此列表有多少个值，第一层遍历就需要执行多少次，第二层循环是对值进行比较，由于第一次每找到一个最大值放在最后，第二次就可以少遍历一个，因此第二层遍历的长度为列表的长度减去第一层已遍历过的长度
+    function bubbleSort(arr) {
+        var len = arr.length
+        for(var i = 0; i < len - 1; i++) {
+            for(var j = 0; j < len - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    var temp = arr[j + 1]
+                    arr[j + 1] = arr[j]
+                    arr[j] = temp
+                }
+            }
+        }
+        return arr
+    }
+    console.log(bubbleSort([2,12,5,100,23,44,6,18]))
+</script>
+</html>

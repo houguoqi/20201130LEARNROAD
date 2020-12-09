@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>选择排序</h1>
+    <img src="./images/选择排序.gif" alt="">
+</body>
+<script>
+    // 选择排序就是先默认第一个值为最小值，然后遍历后面的所有值，如果有比默认值小的，则交换位置
+    // 然后默认第二个值为最小值，继续遍历后面的所有值，有比默认值小的，则交换位置，依次类推，直到最后一个值为最大值
+    // 反过来默认最后一个值为最大值，然后遍历前面的所有值，有比默认值大的，则交换位置，以此类推
+    function selectSort(arr) {
+        var minIndex
+        var len = arr.length
+        for(var i = 0; i < len - 1; i++) {
+            minIndex = i
+            for(var j = i + 1; j < len; j++) {
+                if(arr[j] < arr[minIndex]) {
+                    var temp = arr[minIndex]
+                    arr[minIndex] = arr[j]
+                    arr[j] = temp
+                }
+            }
+        }
+        return arr
+    }
+    console.log(selectSort([2,12,5,100,23,44,6,18]))
+</script>
+</html>
