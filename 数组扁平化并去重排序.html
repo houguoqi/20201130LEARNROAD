@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 常规办法
+    function flat(arr) {
+        var result = []
+        arr.forEach(element => {
+            if(!Array.isArray(element)) {
+                result.push(element)
+            }else {
+                result = result.concat(flat(element))
+            }
+        });
+        return result
+    }
+    function removalSort(arr) {
+        return Array.from(new Set([...arr])).sort((a, b) => a - b)
+    }
+
+    const arr = [33,[11,3],34,[5,[6,7,199]],9,[10]]
+    console.log(removalSort(flat(arr)))
+
+    // 简单粗暴的办法
+    console.log(arr.toString().split(',').sort((a ,b) => a - b))
+</script>
+</html>
