@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>解法一：维护数组</h1>
+    <img src="../images/查找最长字串长度.png" alt="">
+</body>
+<script>
+    // 给定一个字符串，找出其中不含有重复字符的最长字串的长度
+    // 例如 给定字符串  abcadb 那么其中无重复字符的最长字串为 cadb 输出长度 4
+    // 解法一：维护数组 通过数组维护一个滑动窗口
+    // 1.遍历字串，判断这个字符在滑动窗口中是否有重复的，没有则push进去
+    // 2.有的话就将窗口中的这个重复字符及前面的元素删掉，并且将这个字符push进去
+    // 3.每次执行完都要更新最长字串长度更新max
+
+    function getS(s) {
+        var max = 0, window = [], s = s.split("")
+        for(let i = 0; i < s.length; i++) {
+            if (window.indexOf(s[i]) !== -1) {
+                window.splice(0, window.indexOf(s[i]) + 1)
+            }
+            window.push(s[i])
+            max = Math.max(max, window.length)
+        }
+        console.log(max, window.join(""))
+        return max
+    }
+</script>
+</html>

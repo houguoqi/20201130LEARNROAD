@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>合并两个有序数组</h1>
+    <h2>第1次比较</h2>
+    <img src="../images/合并两个有序数组-1.png" alt="">
+    <h2>第2次比较</h2>
+    <img src="../images/合并两个有序数组-2.png" alt="">
+    <h2>第3次比较</h2>
+    <img src="../images/合并两个有序数组-3.png" alt="">
+    <h2>第4次比较</h2>
+    <img src="../images/合并两个有序数组-4.png" alt="">
+</body>
+<script>
+    // 假设两个数组 arr1, arr2, 它们的长度分别是 m, n
+    // [2, 4, 7] [9, 8, 3] 3 3
+    // 解题思路 双指针
+    // 假设 arr1 [2, 4, 7, 0, 0, 0]
+    //       arr2    [3, 8, 9]
+
+    // 将arr2中最大的也就是9 与arr1中最大的也就是7比较 9 > 7  ======> [2, 4, 7, 0, 0, 9]
+    // 接着arr2中8与arr1中7比较 8 > 7                       ======> [2, 4, 7, 0, 8, 9]
+    // 接着arr2中3与arr1中7比较 3 < 7                       ======> [2, 4, 7, 7, 8, 9]
+    // 接着arr2中3与arr1中4比较 3 < 4                       ======> [2, 4, 4, 7, 8, 9]
+    // 接着arr2中3与arr1中2比较 3 > 2                       ======> [2, 3, 4, 7, 8, 9]
+    // 此时arr2中已比较完，结束
+
+    // function merge(arr1, m, arr2, n) {
+    //     let p1 = m - 1
+    //     let p2 = n - 1
+    //     let p = m + n -1
+    //     while (p2 >=0) {
+    //         if (p1 < 0) {
+    //             arr1[p--] = arr2[p2--]
+    //             continue
+    //         }
+    //         arr1[p--] = arr1[p1--] >= arr2[p2--] ? arr1[p1--] : arr2[p2--]
+    //     }
+    //     console.log(arr1)
+    // }
+
+    function merge(arr1, m, arr2, n) {
+        let p = m + n - 1, p1 = m - 1, p2 = n - 1
+        while(p2 >= 0) {
+            if(arr2[p2] >= arr1[p1]) {
+                arr1[p] = arr2[p2]
+                p2--
+            }else {
+                arr1[p] = arr1[p1]
+                p1--
+            }
+            p--
+        }
+        console.log(arr1)
+    }
+
+    merge([2, 4, 10], 3, [3, 8, 9], 3)
+</script>
+</html>
