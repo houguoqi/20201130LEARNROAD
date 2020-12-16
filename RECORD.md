@@ -13,3 +13,6 @@ new Function ([arg1[, arg2[, ...argN]],] functionBody)
 let funcStr = "function test(value){alert(value)}";  
 let funcTest = new Function('return '+funcStr);  
 funcTest()("函数也能够执行")  
+# 2020-12-16 判断对象是否有某个字段
+foo.hasOwnProperty("bar")  
+Object.prototype.hasOwnProperty.call(foo, "bar")  
