@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-16">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>两数之和</h1>
+</body>
+<script>
+    // 给定一个数组还有一个特定值，找出数组中和为这个特定值的两个元素的下标
+    // 例如：[2, 7, 10, 11] 给定target 9 那么结果这两个值为 2，7 下标为1，2
+    function twoSum(arr, target) {
+        var map = new Map()
+        for(let i = 0; i < arr.length; i++) {
+            let cha = target - arr[i]
+            if(map.has(cha)) {
+                return [map.get(cha), i]
+            }
+            map.set(arr[i], i)
+        }
+        return []
+    }
+
+    console.log(twoSum([2, 7, 10, 11], 9))
+</script>
+</html>
