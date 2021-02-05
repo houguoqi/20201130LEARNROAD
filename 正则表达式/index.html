@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-16">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+  // ^ 开始位置 * 前面的一个字符可以出现0次或多次 $ 结束位置
+  // * 等价于{1,}
+  var regexp1 = /^demo*$/
+  console.log(regexp1.test('dem'), regexp1.test('demo'), regexp1.test('demooooo'))
+
+  // + 匹配前面的子表达式一次或多次 等价于{1,}
+  var regexp2 = /^demo+$/
+  console.log(regexp2.test('dem'), regexp2.test('demo'), regexp2.test('demooooo'))
+
+  // ? 匹配前面的子表达式零次或一次 等价于{0,1}
+  var regexp3 = /^(demo)?$/
+  console.log(regexp3.test('dem'), regexp3.test('demo'), regexp3.test('demodemo'))
+
+  // {n} n是一个非负整数。匹配确定的n次  {n,} 则表示匹配至少n次 {n,m} 则表示匹配n到m次
+  var regexp4 = /^demo{2}$/
+  console.log(regexp4.test('dem'), regexp4.test('demo'), regexp4.test('demoo'), regexp4.test('demooo'))
+
+  // ? 当该字符紧跟在任何一个其他限制符（*,+,?，{n}，{n,}，{n,m}）后面时，匹配模式是非贪婪的
+  var regexp5 = /o+/, regexp6 = /o+?/
+  var str5 = 'oooo'
+  console.log(str5.match(regexp5), str5.match(regexp6))
+
+  // . 匹配除“\n"之外的任何单个字符。要匹配包括"\n"在内的任何字符，请使用像"(.|\n)"的模式
+  var regexp7 = /^.*$/
+  var str7 = 'as1234'
+  console.log(str7.match(regexp7))
+
+  // x|y 匹配x或y。例如，“z|food"能匹配"z"或"food"。"(z|f)ood"则匹配"zood"或"food"。
+  var regexp8 = /^([1-9]|[a-z])+\.com/
+  console.log(regexp8.test('2.com'), regexp8.test('f.com'))
+
+  // [xyz]	字符集合。匹配所包含的任意一个字符。例如，“[abc]"可以匹配"plain"中的"a"。
+  var regexp9 = /[abc124]/
+  var str9 = 'aAbBcC123456'
+  console.log(str9.match(regexp9))
+
+  // [^xyz] 负值字符集合。匹配未包含的任意字符。例如，“[^abc]"可以匹配"plain"中的"p"。
+  var regexp10 = /[^abc124]/
+  var str10 = 'aAbBcC123456'
+  console.log(str10.match(regexp10))
+
+  // [a-z] 字符范围。匹配指定范围内的任意字符。例如，“[a-z]"可以匹配"a"到"z"范围内的任意小写字母字符。
+  // [^a-z]	负值字符范围。匹配任何不在指定范围内的任意字符。例如，“[^a-z]"可以匹配任何不在"a"到"z"范围内的任意字符。
+
+  // \d 匹配一个数字字符。等价于[0-9]。 \D 匹配一个非数字字符。等价于[^0-9]。
+  var regexp11 = /\d*/
+  console.log(regexp11.test(1), regexp11.test(12), regexp11.test(120))
+
+  // \w 匹配包括下划线的任何单词字符。等价于“[A-Za-z0-9_]"。 \W 匹配任何非单词字符。等价于“[^A-Za-z0-9_]"。
+  var regexp11 = /\w*/
+  console.log(regexp11.test('ab_1_A'))
+</script>
+</html>
